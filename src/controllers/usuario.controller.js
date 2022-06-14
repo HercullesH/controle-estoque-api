@@ -51,7 +51,6 @@ const encontrarTodos = async function (req, res, next) {
 	} catch (error) {
 		next(error);
 	}
-	
 }
 
 const encontrarPorId = async function (req, res, next) {
@@ -72,7 +71,26 @@ const encontrarPorId = async function (req, res, next) {
 	} catch (error) {
 		next(error)
 	}
-	
+}
+
+const deletar = async function (req, res, next) {
+	try {
+		const errors = validationResult(req);
+
+		if (!errors.isEmpty()) {
+			throw createError(422, { errors: errors.array() })
+		}
+		
+		const response = await usuarioService.deletar(req.params.id);
+
+		if (response && response.message) {
+			throw response;
+		}
+
+		res.send(response);
+	} catch (error) {
+		next(error)
+	}
 }
 
 module.exports = {
@@ -80,4 +98,5 @@ module.exports = {
 	encontrarTodos: encontrarTodos,
 	encontrarPorId: encontrarPorId,
 	atualizar: atualizar,
+	deletar: deletar,
 }
