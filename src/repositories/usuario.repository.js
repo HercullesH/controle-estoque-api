@@ -6,6 +6,12 @@ const criar = async function(usuario) {
 	return usuarioCriado;
 }
 
+const atualizar =  async function(usuario, id) {
+	await Usuario.update(usuario, {
+		where: { id: id }
+	});
+}
+
 const encontrarTodos = async function() {
 	const usuarios = await Usuario.findAll();
 	return usuarios;
@@ -25,6 +31,7 @@ const encontrarUmPorWhere = async function(where) {
 
 module.exports = {
 	criar: criar,
+	atualizar: atualizar,
 	encontrarTodos: encontrarTodos,
 	encontrarPorId: encontrarPorId,
 	encontrarUmPorWhere: encontrarUmPorWhere,
