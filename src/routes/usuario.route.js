@@ -5,6 +5,8 @@ const usuarioValidator = require('../validators/usuario.validator');
 
 router.post('/', usuarioValidator.criar(), usuarioController.criar)
 
+router.post('/login', usuarioValidator.login(), usuarioController.login)
+
 router.get('/', usuarioController.encontrarTodos)
 
 router.get('/:id', usuarioValidator.encontrarPorId(), usuarioController.encontrarPorId)

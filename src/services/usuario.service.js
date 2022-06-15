@@ -2,6 +2,7 @@ const usuarioRepository = require('../repositories/usuario.repository');
 const createError = require('http-errors');
 require('dotenv').config();
 const bcrypt = require('bcrypt');
+const { sign } = require('jsonwebtoken');
 
 const criar = async function (usuario) {
 	const existeUsuario = await usuarioRepository.encontrarUmPorWhere({ email: usuario.email });
@@ -13,6 +14,33 @@ const criar = async function (usuario) {
 	usuario.senha = await bcrypt.hash(usuario.senha, ~~process.env.SALT)
 	const usuarioCriado = await usuarioRepository.criar(usuario);
 	return usuarioCriado;
+}
+
+const login = async function (usuario) {
+	const usuarioLogin = await usuarioRepository.encontrarUmPorWhere({
+		email: usuario.email
+	});
+
+	if (!usuarioLogin) {
+		return createError(401, 'Usuário inválido');
+	}
+
+	const comparacaoSenha = await bcrypt.compare(usuario.senha, usuarioLogin.senha);
+
+	if (!comparacaoSenha) {
+		return createError(401, 'Usuário inválido');
+	}
+
+	const token = sign({
+		id: usuarioLogin.id
+	}, process.env.SECRET, {});
+	delete usuarioLogin.senha
+
+	return {
+		auth: true,
+		usuario: usuarioLogin,
+		token: token,
+	}
 }
 
 const atualizar = async function(usuario, id) {
@@ -59,4 +87,5 @@ module.exports = {
 	encontrarTodos: encontrarTodos,
 	encontrarPorId: encontrarPorId,
 	deletar: deletar,
+	login: login,
 }

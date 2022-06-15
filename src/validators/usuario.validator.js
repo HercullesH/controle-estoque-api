@@ -28,9 +28,17 @@ const deletar = function() {
 	]
 }
 
+const login = function () {
+	return[
+		body('email', validatorMessage('Email')).exists().bail().isString(),
+		body('senha', validatorMessage('Senha')).exists().bail().isString(),
+	]
+}
+
 module.exports = {
 	criar: criar,
 	encontrarPorId: encontrarPorId,
 	atualizar: atualizar,
 	deletar: deletar,
+	login: login,
 };
