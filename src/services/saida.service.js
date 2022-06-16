@@ -3,7 +3,6 @@ const itemRepository = require('../repositories/item.repository');
 const createError = require('http-errors');
 
 const criar = async function (saida) {
-	console.log(saida)
 	const item = await itemRepository.encontrarPorId(saida.item_id);
 
 	if (!item) {
