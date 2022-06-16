@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-		Entrada.belongsTo(models.Usuario, { foreignKey: 'usuario_id', as: 'usuario'})
-		Entrada.belongsTo(models.Item, { foreignKey: 'item_id', as: 'item'})
+		Saida.belongsTo(models.Usuario, { foreignKey: 'usuario_id', as: 'usuario'})
+		Saida.belongsTo(models.Item, { foreignKey: 'item_id', as: 'item'})
     }
   }
   Saida.init({
