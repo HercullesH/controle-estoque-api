@@ -3,6 +3,7 @@ const itemRepository = require('../repositories/item.repository');
 const createError = require('http-errors');
 
 const criar = async function (saida) {
+	console.log(saida)
 	const item = await itemRepository.encontrarPorId(saida.item_id);
 
 	if (!item) {
@@ -12,7 +13,7 @@ const criar = async function (saida) {
 	const quantidade = item.quantidade - saida.quantidade;
 
 	if (quantidade < 0) {
-		return createError(400,  'Item não existe, saida inválida');
+		return createError(400,  'Quantidade no estoque não pode ficar inferior 0');
 	}
 	const saidaCriada = await saidaRepository.criar(saida);
 	await itemRepository.atualizar({ quantidade }, item.id);
