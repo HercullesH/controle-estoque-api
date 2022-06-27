@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
 		Entrada.belongsTo(models.Usuario, { foreignKey: 'usuario_id', as: 'usuario'})
 		Entrada.belongsTo(models.Item, { foreignKey: 'item_id', as: 'item'})
+		Entrada.belongsTo(models.Fornecedor, { foreignKey: 'fornecedor_id', as: 'fornecedor' })
     }
   }
   Entrada.init({
